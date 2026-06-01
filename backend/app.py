@@ -24,7 +24,7 @@ from starlette.concurrency import run_in_threadpool
 import tts
 from pdf_utils import extract_document
 
-app = FastAPI(title="Kokoro PDF Reader")
+app = FastAPI(title="SpeechifyPDF")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -105,10 +105,10 @@ async def tts_sentence(
     return JSONResponse(cached)
 
 
-# Serve the built frontend if present (production single-port mode).
-_dist = Path(__file__).resolve().parent.parent / "frontend" / "dist"
-if _dist.is_dir():
-    app.mount("/", StaticFiles(directory=str(_dist), html=True), name="static")
+# Serve the static frontend.
+_static = Path(__file__).resolve().parent / "static"
+if _static.is_dir():
+    app.mount("/", StaticFiles(directory=str(_static), html=True), name="static")
 
 
 if __name__ == "__main__":

@@ -21,6 +21,27 @@ _WS = re.compile(r"\s+")
 # Split after sentence-ending punctuation that is followed by whitespace.
 _SENT_SPLIT = re.compile(r"(?<=[.!?])\s+(?=[\"'(\[]?[A-Z0-9])")
 
+# Strip characters that render as invisible squares in the browser:
+# - Private Use Area (U+E000–U+F8FF)
+# - Supplementary Private Use Areas (U+F0000–U+10FFFF)
+# - Replacement character (U+FFFD)
+# - Geometric shapes (U+25A0–U+25FF) e.g. ■ ▢ ◆
+# - Dingbats (U+2700–U+27BF) and misc symbols (U+2600–U+26FF)
+# - Control characters except newline/tab/space
+_JUNK_CHARS = re.compile(
+    r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f"         # C0 controls
+    r"\uE000-\uF8FF"                              # Private Use Area
+    r"\uFFFD"                                     # Replacement char
+    r"\u25A0-\u25FF"                              # Geometric shapes
+    r"\u2600-\u26FF"                              # Misc symbols
+    r"\u2700-\u27BF"                              # Dingbats
+    r"\U000F0000-\U0010FFFF"                      # Supplementary PUA
+    r"]+"
+)
+
+# Check if a cleaned string has any actual readable content.
+_HAS_ALNUM = re.compile(r"[a-zA-Z0-9]")
+
 
 @dataclass
 class Document:
@@ -38,6 +59,8 @@ class Document:
 
 
 def _clean(text: str) -> str:
+    # Strip junk/non-printable characters that render as squares.
+    text = _JUNK_CHARS.sub("", text)
     # Join hyphenated line breaks ("exam-\nple" -> "example").
     text = re.sub(r"-\n(?=[a-z])", "", text)
     return _WS.sub(" ", text).strip()
@@ -63,7 +86,7 @@ def _hard_wrap(sentence: str) -> list[str]:
 
 def _split_sentences(paragraph: str) -> list[str]:
     paragraph = _clean(paragraph)
-    if not paragraph:
+    if not paragraph or not _HAS_ALNUM.search(paragraph):
         return []
     out: list[str] = []
     for part in _SENT_SPLIT.split(paragraph):
@@ -87,6 +110,10 @@ def extract_document(pdf_bytes: bytes, filename: str = "document.pdf") -> Docume
             # Sort by vertical then horizontal position for natural reading order.
             blocks.sort(key=lambda b: (round(b[1], 1), round(b[0], 1)))
             for b in blocks:
+                # b is (x0, y0, x1, y1, text, block_no, block_type)
+                # block_type 0 = text, 1 = image; skip non-text blocks.
+                if b[6] != 0:
+                    continue
                 block_text = b[4]
                 para_sentences = _split_sentences(block_text)
                 if not para_sentences:

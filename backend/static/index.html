@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpeechifyPDF — AI-Powered Text-to-Speech</title>
+  <meta name="description"
+    content="Drop in a PDF and listen — every word lights up as it's read aloud, synthesized locally on your CPU with SpeechifyPDF.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <!-- ===== Background Grid Overlay ===== -->
+  <div class="grid-overlay"></div>
+
+  <!-- ===== Ambient Glow ===== -->
+  <div class="ambient-glow"></div>
+  <div class="ambient-glow-secondary"></div>
+
+  <!-- ===== LANDING VIEW ===== -->
+  <div id="landing" class="view landing">
+    <!-- Top Bar -->
+    <nav class="nav">
+      <div class="nav-brand">
+        <span class="nav-icon">◉</span>
+        <span class="nav-name">SPEECHIFYPDF</span>
+      </div>
+      <div class="nav-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>LOCAL AI TEXT-TO-SPEECH</span>
+      </div>
+
+      <h1 class="hero-title">SpeechifyPDF</h1>
+      <p class="hero-subtitle">AI-POWERED PDF READER</p>
+      <p class="hero-desc">
+        Drop in a PDF and listen — every word lights up as it's read aloud,
+        synthesized locally on your CPU. No cloud. No API keys. Just your voice.
+      </p>
+
+      <!-- Drop Zone -->
+      <label id="dropzone" class="dropzone">
+        <input type="file" id="file-input" accept="application/pdf,.pdf" hidden />
+        <div id="dz-content" class="dz-content">
+          <div class="dz-icon-wrap">
+            <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 16V4m0 0l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <span class="dz-main">Drop a PDF here</span>
+          <span class="dz-sub">or click to choose a file</span>
+        </div>
+      </label>
+      <div id="upload-error" class="upload-error"></div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+      <div class="feature-card">
+        <div class="feature-glow"></div>
+        <div class="feature-value">100%</div>
+        <div class="feature-label">LOCAL</div>
+        <div class="feature-desc">All synthesis runs on your CPU. Nothing leaves your machine.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-glow"></div>
+        <div class="feature-value">5+</div>
+        <div class="feature-label">VOICES</div>
+        <div class="feature-desc">Choose from a rich library of natural-sounding voices.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-glow"></div>
+        <div class="feature-value">Word</div>
+        <div class="feature-label">HIGHLIGHTING</div>
+        <div class="feature-desc">Every word lights up in real-time as it's read aloud.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== READER VIEW ===== -->
+  <div id="reader" class="view reader" style="display:none;">
+    <!-- Top Bar -->
+    <nav class="nav reader-nav">
+      <button id="btn-library" class="nav-back" title="Open another PDF">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Library
+      </button>
+      <h2 id="doc-title" class="nav-title"></h2>
+      <div class="nav-controls">
+        <div class="control-group">
+          <label class="control-label">Voice</label>
+          <select id="voice-select" class="control-select"></select>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Speed</label>
+          <div class="speed-control">
+            <input type="range" id="speed-input" class="speed-slider" min="0.5" max="1.75" step="0.05" value="1.0" />
+            <span id="speed-val" class="speed-value">1.00×</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Progress -->
+    <div class="progress-track">
+      <div id="progress-bar" class="progress-fill"></div>
+    </div>
+
+    <!-- Content -->
+    <main class="reader-body">
+      <article id="prose" class="prose"></article>
+    </main>
+
+    <!-- Playbar -->
+    <footer class="playbar">
+      <div class="playbar-inner">
+        <button id="btn-play" class="btn-play">
+          <span id="play-icon" class="play-icon">►</span>
+          <span id="play-text">Read aloud</span>
+        </button>
+        <div id="status-text" class="status-text">
+          Press space to start
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+
+</html>
