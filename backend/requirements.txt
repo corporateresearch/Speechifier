@@ -1,0 +1,11 @@
+kokoro>=0.9.4
+misaki[en]
+espeakng-loader
+soundfile
+numpy
+PyMuPDF
+fastapi
+uvicorn[standard]
+python-multipart
+# torch is required by kokoro; install the CPU build separately:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
