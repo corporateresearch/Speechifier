@@ -20,7 +20,7 @@ A web-based PDF reader that synthesizes speech using the **Kokoro TTS model** an
 - Python 3.12+
 - Node.js 18+
 - ~8 GB RAM (torch + model)
-- Ubuntu/Debian (for APT packages)
+- Ubuntu/Debian, macOS, or Windows
 
 ### Setup
 
@@ -36,8 +36,16 @@ cd frontend && npm install
 ### Run
 
 **Development** (Vite dev server + backend):
+
+**On Linux/macOS:**
 ```bash
 ./run.sh
+# Opens on http://localhost:5173
+```
+
+**On Windows:**
+```bat
+run.bat
 # Opens on http://localhost:5173
 ```
 
