@@ -24,7 +24,7 @@ from starlette.concurrency import run_in_threadpool
 import tts
 from pdf_utils import extract_document
 
-app = FastAPI(title="SpeechifyPDF")
+app = FastAPI(title="Speechifier")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

@@ -2,7 +2,7 @@
 setlocal
 
 echo =======================================================
-echo Starting SpeechifyPDF
+echo Starting Speechifier
 echo =======================================================
 
 set CONDA_ENV=kokoro-pdf

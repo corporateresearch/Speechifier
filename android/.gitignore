@@ -1,0 +1,17 @@
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Downloaded at runtime / fetched during setup — not committed.
+app/src/main/assets/kokoro_int8_timestamped.onnx
+app/src/main/assets/voices/
+app/src/main/assets/openjtalk/
+app/src/main/assets/zh/
+app/src/main/assets/espeak-ng-data/

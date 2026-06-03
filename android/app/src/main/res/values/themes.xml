@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base theme; the live UI palette is defined in Compose (ui/Theme.kt).
+         This exists so the manifest/splash have a dark background before Compose draws. -->
+    <style name="Theme.Speechifier" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowBackground">@color/bg</item>
+    </style>
+</resources>
